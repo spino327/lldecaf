@@ -21,12 +21,15 @@ reserved = (
     'AUTO', 'BREAK', 'CASE', 'CHAR', 'CONST', 'CONTINUE', 'DEFAULT', 'DO', 'DOUBLE',
     'ELSE', 'ENUM', 'EXTERN', 'FLOAT', 'FOR', 'GOTO', 'IF', 'INT', 'LONG', 'REGISTER',
     'RETURN', 'SHORT', 'SIGNED', 'SIZEOF', 'STATIC', 'STRUCT', 'SWITCH', 'TYPEDEF',
-    'UNION', 'UNSIGNED', 'VOID', 'VOLATILE', 'WHILE', 'BOOL', 'STRING', 'PRINT'
+    'UNION', 'UNSIGNED', 'VOID', 'VOLATILE', 'WHILE', 'BOOL', 'STRING', 
+    
+# decaf
+    'THIS', 'PRINT', 'NEWARRAY', 'NEW', 'READLINE', 'READINTEGER', 'NULL'
     )
 
 tokens = reserved + (
     # Literals (identifier, integer constant, float constant, string constant, char const)
-    'ID', 'TYPEID', 'ICONST', 'FCONST', 'SCONST', 'CCONST',
+    'ID', 'TYPEID', 'ICONST', 'FCONST', 'BCONST', 'SCONST', 'CCONST',
 
     # Operators (+,-,*,/,%,|,&,~,^,<<,>>, ||, &&, !, <, <=, >, >=, ==, !=)
     'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'MOD',
@@ -126,6 +129,10 @@ t_ELLIPSIS         = r'\.\.\.'
 
 # System calls
 t_PRINT            = r'Print'
+t_READINTEGER      = r'ReadInteger'
+t_READLINE         = r'ReadLine'
+t_NEW              = r'New'
+t_NEWARRAY         = r'NewArray'
 
 # Identifiers and reserved words
 
@@ -143,6 +150,9 @@ t_ICONST = r'\d+([uU]|[lL]|[uU][lL]|[lL][uU])?'
 
 # Floating literal
 t_FCONST = r'((\d+)(\.\d+)(e(\+|-)?(\d+))? | (\d+)e(\+|-)?(\d+))([lL]|[fF])?'
+
+# Boolean literal
+t_BCONST = r'true | false'
 
 # String literal
 t_SCONST = r'\"([^\\\n]|(\\.))*?\"'

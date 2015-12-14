@@ -55,9 +55,8 @@ def p_Type(p):
          |    BOOL
          |    STRING
          |    ID
+         |    Type LBRACKET RBRACKET
     '''
-#          |    Type LBRACKET RBRACKET
-#     '''
     printNode("Type", 5)
 
 def p_FuncDec(p):
@@ -95,13 +94,220 @@ def p_StmtList(p):
 
 def p_Stmt(p):
     '''
-    Stmt :    PrintStmt
+    Stmt :    ExprP SEMI
+         |    IfStmt
+         |    WhileStmt
+         |    ForStmt
+         |    BreakStmt
+         |    ReturnStmt
+         |    PrintStmt
+         |    StmtBlock
+         |    SwitchStmt
+    '''
+    pass
+
+def p_IfStmt(p):
+    '''
+    IfStmt :    IF LPAREN Assignment RPAREN Stmt ElseStmt
+    '''
+    pass
+
+def p_ElseStmt(p):
+    '''
+    ElseStmt :    ELSE Stmt
+             |    Empty
+    '''
+    pass
+
+def p_WhileStmt(p):
+    '''
+    WhileStmt :    WHILE LPAREN Assignment RPAREN Stmt
+    '''
+    pass
+
+def p_ForStmt(p):
+    '''
+    ForStmt :    FOR LPAREN ExprP SEMI Assignment SEMI ExprP RPAREN Stmt
+    '''
+    pass
+
+def p_ReturnStmt(p):
+    '''
+    ReturnStmt :    RETURN ExprP SEMI
+    '''
+    pass
+
+def p_SwitchStmt(p):
+    '''
+    SwitchStmt :    SWITCH LPAREN Assignment RPAREN LBRACE CaseList Default RBRACE
+    '''
+    pass
+
+def p_CaseList(p):
+    '''
+    CaseList :    CASE ICONST COLON StmtList CaseList
+             |    CASE ICONST COLON StmtList
+    '''
+    pass
+
+def p_Default(p):
+    '''
+    Default :    DEFAULT COLON StmtList
+            |    Empty
+    '''
+    pass
+
+def p_ExprP(p):
+    '''
+    ExprP :    Assignment
+          |    Empty
+    '''
+    pass
+
+def p_BreakStmt(p):
+    '''
+    BreakStmt :    BREAK SEMI
     '''
     pass
 
 def p_PrintStmt(p):
     '''
-    PrintStmt :    PRINT LPAREN SCONST RPAREN SEMI
+    PrintStmt :    PRINT LPAREN Assignment ExprList RPAREN SEMI
+    '''
+    pass
+
+def p_ExprList(p):
+    '''
+    ExprList :    COMMA Assignment ExprList
+             |    Empty
+    '''
+    pass
+
+# =
+def p_Assignment(p):
+    '''
+    Assignment :    LValue EQUALS Assignment
+               |    LogicalOr
+    '''
+    pass
+
+def p_LogicalOr(p):
+    '''
+    LogicalOr :    LogicalOr LOR LogicalAnd
+              |    LogicalAnd
+    '''
+    pass
+
+def p_LogicalAnd(p):
+    '''
+    LogicalAnd :    LogicalAnd LAND Equality
+               |    Equality
+    '''
+    pass
+
+def p_Equality(p):
+    '''
+    Equality :    Relational EQUALS Equality
+             |    Relational NE Equality
+             |    Relational
+    '''
+    pass
+
+def p_Relational(p):
+    '''
+    Relational :    Expression LT Relational
+               |    Expression LE Relational
+               |    Expression GT Relational
+               |    Expression GE Relational
+               |    Expression
+    '''
+    pass
+
+def p_Expression(p):
+    '''
+    Expression :    Expression PLUS Expression
+               |    Expression MINUS Expression
+               |    Terminal
+    '''
+    pass
+
+def p_Terminal(p):
+    '''
+    Terminal :    Terminal TIMES Factor
+             |    Terminal DIVIDE Factor
+             |    Terminal MOD Factor
+             |    Factor
+    '''
+    pass
+
+def p_Factor(p):
+    '''
+    Factor :    MINUS Basic
+           |    LNOT Basic
+           |    Basic PLUSPLUS
+           |    Basic MINUSMINUS
+           |    Basic
+    '''
+    pass
+
+def p_LValue(p):
+    '''
+    LValue :    Atomic PERIOD ID
+           |    ArrayAccess
+           |    ID
+    '''
+    pass
+
+def p_Basic(p):
+    '''
+    Basic :    Atomic PERIOD ID
+          |    ArrayAccess
+          |    Atomic
+    '''
+    pass
+
+def p_ArrayAccess(p):
+    '''
+    ArrayAccess :    ArrayAccess LBRACKET Expression RBRACKET
+                |    Atomic LBRACKET Expression RBRACKET
+    '''
+    pass
+
+def p_Atomic(p):
+    '''
+    Atomic :    Constant
+           |    THIS
+           |    ID
+           |    LPAREN Expression RPAREN
+           |    READINTEGER
+           |    READLINE
+           |    NEW LPAREN ID RPAREN
+           |    NEWARRAY LPAREN Assignment COMMA Type RPAREN
+           |    Call
+    '''
+    pass
+
+def p_Call(p):
+    '''
+    Call :    ID LPAREN Actuals RPAREN
+         |    Atomic PERIOD ID LPAREN Actuals RPAREN
+    '''
+    pass
+
+def p_Actuals(p):
+    '''
+    Actuals :    Assignment ExprList
+            |    Empty
+    '''
+    pass
+
+def p_Constant(p):
+    '''
+    Constant :    ICONST
+             |    FCONST
+             |    BCONST
+             |    SCONST
+             |    NULL
     '''
     pass
 

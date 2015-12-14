@@ -47,7 +47,7 @@ if __name__ == '__main__':
     # interactive mode below
     if len(sys.argv) == 2:
         data = open(sys.argv[1]).read()
-        prog = parser.parse(data, debug_flag=False)
+        prog = parser.parse(data, debug_flag=True)
         print(prog)
 #         if not prog: raise SystemExit
 #         b = basinterp.BasicInterpreter(prog)
